@@ -20,18 +20,6 @@ class LoginForm extends Form {
       .label("Password")
   };
 
-  handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
-    const error = this.validateProperty(input);
-    if (error) errors[input.name] = error;
-    else delete errors[input.name];
-    this.setState({ errors });
-
-    const data = { ...this.state.data };
-    data[input.name] = input.value;
-    this.setState({ data });
-  };
-
   doSubmit() {
     console.log("form submitted");
   }
