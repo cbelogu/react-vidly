@@ -38,13 +38,12 @@ class NewMovieForm extends Form {
   doSubmit = () => {
     const movie = {
         'name': this.state.data.title,
-        'genre': this.state.data.genre,
+        'genreId': this.state.data.genre,
         'numberInStock': this.state.data.numberInStock,
         'dailyRentalRate': this.state.data.rate
     };
-    console.log(movie);
     saveMovie(movie);
-    
+    this.props.history.push('/movies');
   }
 
   render() {
