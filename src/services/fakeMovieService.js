@@ -78,7 +78,7 @@ export function getMovie(id) {
 
 export function saveMovie(movie) {
   let movieInDb = movies.find(m => m._id === movie._id) || {};
-  movieInDb.title = movie.name;
+  movieInDb.title = movie.title;
   movieInDb.genre = genresAPI.genres.find(g => g._id === movie.genreId);
   movieInDb.numberInStock = movie.numberInStock;
   movieInDb.dailyRentalRate = movie.dailyRentalRate;
@@ -92,10 +92,7 @@ export function saveMovie(movie) {
 }
 
 export function deleteMovie(id) {
-  console.log(id);
   let movieInDb = movies.find(m => m._id === id);
-  console.log(movieInDb);
   movies.splice(movies.indexOf(movieInDb), 1);
-  console.log(movies);
   return movies;
 }
