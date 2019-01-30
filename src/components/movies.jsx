@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getMovies } from '../services/fakeMovieService';
+import { getMovies, deleteMovie } from '../services/fakeMovieService';
 import Pagination from './common/pagination';
 import { Paginate } from '../utils/paginate';
 import ListGroup from './common/listgroup';
@@ -12,7 +12,7 @@ class Movies extends Component {
 	state = {
 		movies: [],
 		genres: [],
-		pageSize: 3,
+		pageSize: 4,
         currentPage: 1,
 		selectedGenre: "",
 		sortColumn: { path: 'title', order: 'asc'}
@@ -24,8 +24,8 @@ class Movies extends Component {
 	}
 
 	handleDelete = (movie) => {
-		const movies = this.state.movies.filter((m) => m._id !== movie._id);
-		this.setState({ movies });
+		deleteMovie(movie._id);
+		this.setState({ movies: getMovies() });
 	};
 
 	handleLike = (movie) => {

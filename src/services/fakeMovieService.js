@@ -92,7 +92,10 @@ export function saveMovie(movie) {
 }
 
 export function deleteMovie(id) {
+  console.log(id);
   let movieInDb = movies.find(m => m._id === id);
+  console.log(movieInDb);
   movies.splice(movies.indexOf(movieInDb), 1);
-  return movieInDb;
+  console.log(movies);
+  return movies;
 }
