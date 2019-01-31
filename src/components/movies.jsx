@@ -61,7 +61,7 @@ class Movies extends Component {
 	}
 
 	handleSearchQueryChange = ({currentTarget: input}) => {
-		this.setState({ searchQueryString: input.value, selectedGenre: ''});
+		this.setState({ searchQueryString: input.value, selectedGenre: '', currentPage: 1 });
 	}
 
 	render() {
