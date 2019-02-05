@@ -1,8 +1,9 @@
 import React from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import { getGenres } from "../services/fakeGenreService";
-import { saveMovie, getMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/genreService";
+import { saveMovie, getMovie } from "../services/movieService";
+import { toast } from "react-toastify";
 
 class MovieForm extends Form {
   state = {
@@ -36,16 +37,29 @@ class MovieForm extends Form {
       .label("Rate")
   };
 
-  componentDidMount() {
-    this.setState({ genres: getGenres() });
+  async componentDidMount() {
+    await this.populateGenres();
+    await this.populateMovies();
+  }
 
-    const id = this.props.match.params.id;
-    if (id === "new") return;
+  async populateGenres() {
+    const { data } = await getGenres();
+    this.setState({ genres: data });
+  }
 
-    const movie = getMovie(id);
-    if (!movie) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.mapMovieData(movie) });
+  async populateMovies() {
+    try {
+      const id = this.props.match.params.id;
+      if (id === "new") return;
+      
+      const { data: movie } = await getMovie(id);
+      this.setState({ data: this.mapMovieData(movie) });
+    }
+    catch(error) {
+      if (error && error.response.status >= 400 && error.response.status < 500) {
+        return this.props.history.replace("/not-found");
+      }
+    }
   }
 
   mapMovieData(movie) {
@@ -58,9 +72,16 @@ class MovieForm extends Form {
     };
   }
 
-  doSubmit = () => {
-    saveMovie(this.state.data);
-    this.props.history.push("/movies");
+  doSubmit = async () => {
+    try {
+      await saveMovie(this.state.data);
+      this.props.history.push("/movies");
+    }
+    catch(error) {
+      if (error && error.response.status >= 400 && error.response.status < 500) {
+        toast.error(error.response.message);
+      }
+    }
   };
 
   render() {
