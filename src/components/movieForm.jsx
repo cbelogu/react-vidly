@@ -21,6 +21,7 @@ class MovieForm extends Form {
     _id: Joi.string(),
     title: Joi.string()
       .required()
+      .min(5)
       .label("Title"),
     genreId: Joi.string()
       .required()
